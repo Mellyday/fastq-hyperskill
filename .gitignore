@@ -22,3 +22,4 @@
 /Read Quality Control/The unknown/task-remote-info.yaml
 /Read Quality Control/task/tests.py
 /.idea/.gitignore
+/.idea/vcs.xml
