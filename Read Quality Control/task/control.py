@@ -1,5 +1,6 @@
 # write your code here
 from collections import Counter
+from collections import defaultdict
 
 
 class DNASequence:
@@ -17,17 +18,26 @@ class DNASequence:
         lengths = [len(line) for line in self.dna_sequences]
         return lengths
 
+    @property
+    def gc_content(self):
+        all_gc_mean = []
+        for seq in self.dna_sequences:
+            counter = Counter()
+            for nucleo in seq:
+                counter[nucleo] += 1
+            gc_total = counter['G'] + counter['C']
+            gc_mean = gc_total / len(seq)
+            all_gc_mean.append(gc_mean)
+        return sum(all_gc_mean) / len(all_gc_mean) * 100
+
 
 def main():
     dna = DNASequence(input())
     # Need lines, lengths, amount
     print(f"Reads in the file = {len(dna.dna_sequences)}:")
-    counter = Counter(dna.seq_lengths)
-    for length, count in counter.items():
-        print(f"      with length {length} = {count}")
-    print()
     avg = sum(dna.seq_lengths) / len(dna.seq_lengths)
     print(f"Reads sequence average length = {round(avg)}")
+    print(f"\nGC content average = {round(dna.gc_content, 2)}%")
 
 
 if __name__ == "__main__":
