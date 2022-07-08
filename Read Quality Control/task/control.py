@@ -31,6 +31,22 @@ class DNASequence:
         return sum(all_gc_mean) / len(all_gc_mean) * 100
 
     @property
+    def undefined_content(self):
+        total = 0
+        for seq in self.dna_sequences:
+            count = seq.count('N') / len(seq)
+            total += count
+        return total / len(self.seq_lengths) * 100
+
+    @property
+    def freq_undefined_seq(self):
+        count = 0
+        for seq in self.dna_sequences:
+            if 'N' in seq:
+                count += 1
+        return count
+
+    @property
     def repeats(self):
         dictionary = defaultdict(lambda *_: -1)
         for seq in self.dna_sequences:
@@ -45,10 +61,11 @@ def main():
     avg = sum(dna.seq_lengths) / len(dna.seq_lengths)
     print(f"Reads sequence average length = {round(avg)}")
     print()
-    if dna.repeats > 0:
-        print(f"Repeats = {dna.repeats}")
-        print()
+    print(f"Repeats = {dna.repeats}")
+    print(f"Reads with Ns = {dna.freq_undefined_seq}")
+    print()
     print(f"\nGC content average = {round(dna.gc_content, 2)}%")
+    print(f"Ns per read sequence = {round(dna.undefined_content, 2)}%")
 
 
 if __name__ == "__main__":
