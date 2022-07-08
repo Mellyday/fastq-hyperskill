@@ -23,3 +23,5 @@
 /Read Quality Control/task/tests.py
 /.idea/.gitignore
 /.idea/vcs.xml
+/.idea/modules.xml
+/.idea/Read Quality Control.iml
