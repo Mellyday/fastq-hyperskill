@@ -1,6 +1,5 @@
 # write your code here
 from collections import Counter
-from collections import defaultdict
 
 
 class DNASequence:
