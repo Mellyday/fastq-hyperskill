@@ -1,5 +1,6 @@
 # write your code here
 from collections import Counter
+from collections import defaultdict
 
 
 class DNASequence:
@@ -29,6 +30,13 @@ class DNASequence:
             all_gc_mean.append(gc_mean)
         return sum(all_gc_mean) / len(all_gc_mean) * 100
 
+    @property
+    def repeats(self):
+        dictionary = defaultdict(lambda *_: -1)
+        for seq in self.dna_sequences:
+            dictionary[seq] += 1
+        return sum(dictionary.values())
+
 
 def main():
     dna = DNASequence(input())
@@ -36,6 +44,10 @@ def main():
     print(f"Reads in the file = {len(dna.dna_sequences)}:")
     avg = sum(dna.seq_lengths) / len(dna.seq_lengths)
     print(f"Reads sequence average length = {round(avg)}")
+    print()
+    if dna.repeats > 0:
+        print(f"Repeats = {dna.repeats}")
+        print()
     print(f"\nGC content average = {round(dna.gc_content, 2)}%")
 
 
