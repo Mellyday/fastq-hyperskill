@@ -1,12 +1,13 @@
 # write your code here
+import gzip
+from typing import List
 from collections import Counter
 from collections import defaultdict
 
 
 class DNASequence:
-    def __init__(self, filename):
-        with open(filename) as file:
-            self.lines = [line.strip() for line in file.readlines()]
+    def __init__(self, lines: List[str]):
+        self.lines = lines
 
     @property
     def dna_sequences(self):
@@ -54,10 +55,31 @@ class DNASequence:
         return sum(dictionary.values())
 
 
+def lowest_undefined_data(*dna_objs):
+    result = dna_objs[0]
+    lowest = dna_objs[0].freq_undefined_seq
+    for i, dna in enumerate(dna_objs):
+        if dna.freq_undefined_seq < lowest:
+            lowest = dna.freq_undefined_seq
+            result = dna
+    return result
+
+
+def read_gz_files(files_q):
+    result = []
+    for i in range(files_q):
+        f = gzip.open(input(), "rt")
+        lines = [line.strip() for line in f.readlines()]
+        dna = DNASequence(lines)
+        result.append(dna)
+    return result
+
+
 def main():
-    dna = DNASequence(input())
-    # Need lines, lengths, amount
-    print(f"Reads in the file = {len(dna.dna_sequences)}:")
+    dnas = read_gz_files(3)
+    dna = lowest_undefined_data(*dnas)
+    print()
+    print(f"Reads in the file = {len(dna.dna_sequences) - dna.repeats}:")
     avg = sum(dna.seq_lengths) / len(dna.seq_lengths)
     print(f"Reads sequence average length = {round(avg)}")
     print()
